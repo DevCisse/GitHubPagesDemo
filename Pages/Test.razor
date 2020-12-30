@@ -1,0 +1,37 @@
+﻿@page "/Test"
+@inject HttpClient Http
+
+@using Abarqu.Models
+
+
+<h2>Diwanai of Shaykh Ibrahim Inyass</h2>
+
+<input type="checkbox" @bind="ShowTranslation" /> Show Translation
+@if (Baits != null)
+{
+    @foreach (var item in Baits)
+    {
+
+        <Abarqu.Components.BaitContainer Bait="item" ShowTranslation="ShowTranslation" />
+
+    }
+}
+
+
+@code {
+
+
+    private List<Bait> Baits = new List<Bait>();
+
+
+    public bool ShowTranslation { get; set; } = true;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Baits = await Http.GetFromJsonAsync<List<Bait>>("sample-data/Abarqu.json");
+    }
+
+
+
+}
